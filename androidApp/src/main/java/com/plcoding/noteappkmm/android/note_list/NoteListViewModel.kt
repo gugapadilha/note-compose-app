@@ -1,4 +1,4 @@
-package com.plcoding.noteappkmm.android.node_list
+package com.plcoding.noteappkmm.android.note_list
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

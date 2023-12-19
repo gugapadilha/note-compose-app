@@ -1,4 +1,4 @@
-package com.plcoding.noteappkmm.android.node_list
+package com.plcoding.noteappkmm.android.note_list
 
 import com.plcoding.noteappkmm.domain.note.Note
 
