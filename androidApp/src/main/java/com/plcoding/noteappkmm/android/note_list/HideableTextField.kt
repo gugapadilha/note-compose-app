@@ -28,47 +28,43 @@ fun HideableSearchTextField(
     onCloseClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = Modifier) {
+    Box(modifier = modifier) {
         AnimatedVisibility(
             visible = isSearchActive,
             enter = fadeIn(),
-            exit = fadeOut()) {
+            exit = fadeOut()
+        ) {
             OutlinedTextField(
                 value = text,
                 onValueChange = onTextChange,
                 shape = RoundedCornerShape(50.dp),
-                placeholder = {
-                    Text(
-                text = "Search"
-            )}, modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .padding(end = 40.dp))
+                placeholder = { Text(text = "Search") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .padding(end = 40.dp)
+            )
         }
-
-        //visible
         AnimatedVisibility(
             visible = isSearchActive,
             enter = fadeIn(),
             exit = fadeOut(),
-            modifier = Modifier.align(Alignment.CenterEnd)) {
-            IconButton(
-                onClick = onCloseClick) {
+            modifier = Modifier.align(Alignment.CenterEnd)
+        ) {
+            IconButton(onClick = onCloseClick) {
                 Icon(
                     imageVector = Icons.Default.Close,
                     contentDescription = "Close search"
                 )
             }
         }
-
-        //not visible
         AnimatedVisibility(
             visible = !isSearchActive,
             enter = fadeIn(),
             exit = fadeOut(),
-            modifier = Modifier.align(Alignment.CenterEnd)) {
-            IconButton(
-                onClick = onSearchClick) {
+            modifier = Modifier.align(Alignment.CenterEnd)
+        ) {
+            IconButton(onClick = onSearchClick) {
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = "Open search"
