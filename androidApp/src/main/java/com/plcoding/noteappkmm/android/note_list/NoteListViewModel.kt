@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.plcoding.noteappkmm.domain.data.note.SearchNotes
 import com.plcoding.noteappkmm.domain.note.Note
 import com.plcoding.noteappkmm.domain.note.NoteDataSource
+import com.plcoding.noteappkmm.domain.time.DateTimeUtil
+import com.plcoding.noteappkmm.presentation.RedOrangeHex
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -17,7 +19,7 @@ import javax.inject.Inject
 class NoteListViewModel @Inject constructor(
     private var noteDataSource: NoteDataSource,
     private val savedStateHandle: SavedStateHandle
-): ViewModel(){
+): ViewModel() {
 
     private val searchNotes = SearchNotes()
 
@@ -26,7 +28,7 @@ class NoteListViewModel @Inject constructor(
     private val isSearchActive = savedStateHandle.getStateFlow("isSearchActive", false)
 
     // If any of this parameters change, we will recalculate the note list state
-    val state = combine(notes, searchText, isSearchActive) {notes, searchText, isSearchActive ->
+    val state = combine(notes, searchText, isSearchActive) { notes, searchText, isSearchActive ->
         NoteListState(
             //When notes or searchTexts change we will re-execute the searchNotes to reflex the latest state
             notes = searchNotes.execute(notes, searchText),
@@ -34,6 +36,23 @@ class NoteListViewModel @Inject constructor(
             isSearchActive = isSearchActive
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), NoteListState())
+
+
+    init {
+        viewModelScope.launch {
+            (1 .. 10).forEach {
+                noteDataSource.insertNote(
+                    Note(
+                        id = null,
+                        title = "Note$it",
+                        content = "Content$it",
+                        colorHex = RedOrangeHex,
+                        created = DateTimeUtil.now()
+                    )
+                )
+            }
+        }
+    }
 
     fun loadNotes() {
         viewModelScope.launch {
