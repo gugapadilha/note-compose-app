@@ -8,5 +8,5 @@ data class NoteDetailState(
     val isNoteTitleTextFocused: Boolean = false,
     val noteContent: String = "",
     val isNoteContentTextFocused: Boolean  = false,
-    val noteColor: Color = Color.White
+    val noteColor: Long = 0xFFFFFF
 )
