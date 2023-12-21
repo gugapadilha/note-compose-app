@@ -3,7 +3,9 @@ package com.plcoding.noteappkmm.android.note_detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.plcoding.noteappkmm.domain.note.Note
 import com.plcoding.noteappkmm.domain.note.NoteDataSource
+import com.plcoding.noteappkmm.domain.time.DateTimeUtil
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +19,7 @@ class NoteDetailViewModel @Inject constructor(
     private val isNoteTitleFocused = savedStateHandle.getStateFlow("isNoteTitleFocused", false)
     private val noteContent = savedStateHandle.getStateFlow("noteContent", "")
     private val isNoteContentFocused = savedStateHandle.getStateFlow("isNoteContentFocused", false)
-    private val noteColor = savedStateHandle.getStateFlow("noteColor", 0xFFFFFFFF)
+    private val noteColor = savedStateHandle.getStateFlow("noteColor", Note.generateRandomColor())
 
     val state = combine(
         noteTitle,
@@ -28,9 +30,9 @@ class NoteDetailViewModel @Inject constructor(
     ) {title, isTitleFocused, content, isContentFocused, color ->
         NoteDetailState(
             noteTitle = title,
-            isNoteTitleTextFocused = isTitleFocused,
+            isNoteTitleHintVisible = title.isEmpty() && !isTitleFocused,
             noteContent = content,
-            isNoteContentTextFocused = isContentFocused,
+            isNoteContentHintVisible = content.isEmpty() && !isContentFocused,
             noteColor = color
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), NoteDetailState())
@@ -53,6 +55,37 @@ class NoteDetailViewModel @Inject constructor(
                     savedStateHandle["noteColor"] = note.colorHex
                 }
             }
+        }
+    }
+
+    fun onNoteTitleChanged(text: String){
+        savedStateHandle["noteTitle"] = text
+    }
+
+    fun onNoteContentChanged(text: String){
+        savedStateHandle["noteContent"] = text
+    }
+
+    fun onNoteTitleFocusChanged(isFocused: Boolean){
+        savedStateHandle["isNoteTitleFocused"] = isFocused
+    }
+
+    fun onNoteContentChanged(isFocused: Boolean){
+        savedStateHandle["isNoteContentFocused"] = isFocused
+    }
+
+    fun saveNote(){
+        viewModelScope.launch {
+            noteDataSource.insertNote(
+                Note(
+                    id = existingNoteId,
+                    title = noteTitle.value,
+                    content = noteContent.value,
+                    colorHex = noteColor.value,
+                    created = DateTimeUtil.now()
+                )
+            )
+            _hastNoteBeenSaved.value = true
         }
     }
 }
