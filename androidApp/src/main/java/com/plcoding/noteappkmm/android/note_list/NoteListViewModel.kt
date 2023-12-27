@@ -3,9 +3,9 @@ package com.plcoding.noteappkmm.android.note_list
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.plcoding.noteappkmm.domain.data.note.SearchNotes
 import com.plcoding.noteappkmm.domain.note.Note
 import com.plcoding.noteappkmm.domain.note.NoteDataSource
+import com.plcoding.noteappkmm.domain.note.SearchNotes
 import com.plcoding.noteappkmm.domain.time.DateTimeUtil
 import com.plcoding.noteappkmm.presentation.RedOrangeHex
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NoteListViewModel @Inject constructor(
-    private var noteDataSource: NoteDataSource,
+    private val noteDataSource: NoteDataSource,
     private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
@@ -27,10 +27,8 @@ class NoteListViewModel @Inject constructor(
     private val searchText = savedStateHandle.getStateFlow("searchText", "")
     private val isSearchActive = savedStateHandle.getStateFlow("isSearchActive", false)
 
-    // If any of this parameters change, we will recalculate the note list state
     val state = combine(notes, searchText, isSearchActive) { notes, searchText, isSearchActive ->
         NoteListState(
-            //When notes or searchTexts change we will re-execute the searchNotes to reflex the latest state
             notes = searchNotes.execute(notes, searchText),
             searchText = searchText,
             isSearchActive = isSearchActive
@@ -47,14 +45,14 @@ class NoteListViewModel @Inject constructor(
         savedStateHandle["searchText"] = text
     }
 
-    fun onToggleSearch(){
+    fun onToggleSearch() {
         savedStateHandle["isSearchActive"] = !isSearchActive.value
-        if (!isSearchActive.value){
+        if(!isSearchActive.value) {
             savedStateHandle["searchText"] = ""
         }
     }
 
-    fun deleteNoteBydId(id: Long) {
+    fun deleteNoteById(id: Long) {
         viewModelScope.launch {
             noteDataSource.deleteNoteById(id)
             loadNotes()

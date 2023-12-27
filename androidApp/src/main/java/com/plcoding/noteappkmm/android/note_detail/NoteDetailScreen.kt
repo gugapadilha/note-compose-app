@@ -6,7 +6,7 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -17,20 +17,23 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 
 @Composable
 fun NoteDetailScreen(
     noteId: Long,
+    navController: NavController,
     viewModel: NoteDetailViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-    val hastNoteBeenSaved by viewModel.hasNoteBeenSaved.collectAsState()
-    
-    LaunchedEffect(key1 = hastNoteBeenSaved){
-        if (hastNoteBeenSaved){
+    val hasNoteBeenSaved by viewModel.hasNoteBeenSaved.collectAsState()
 
+    LaunchedEffect(key1 = hasNoteBeenSaved) {
+        if(hasNoteBeenSaved) {
+            navController.popBackStack()
         }
     }
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -38,8 +41,8 @@ fun NoteDetailScreen(
                 backgroundColor = Color.Black
             ) {
                 Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Add note",
+                    imageVector = Icons.Default.Check,
+                    contentDescription = "Save note",
                     tint = Color.White
                 )
             }
@@ -48,7 +51,7 @@ fun NoteDetailScreen(
         Column(
             modifier = Modifier
                 .background(Color(state.noteColor))
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(padding)
                 .padding(16.dp)
         ) {

@@ -1,11 +1,11 @@
-package com.plcoding.noteappkmm.domain.data.note
+package com.plcoding.noteappkmm.data.note
 
 import com.plcoding.noteappkmm.database.NoteDatabase
 import com.plcoding.noteappkmm.domain.note.Note
 import com.plcoding.noteappkmm.domain.note.NoteDataSource
 import com.plcoding.noteappkmm.domain.time.DateTimeUtil
 
-class SqlDelightNoteDataSource(db: NoteDatabase) : NoteDataSource {
+class SqlDelightNoteDataSource(db: NoteDatabase): NoteDataSource {
 
     private val queries = db.noteQueries
 

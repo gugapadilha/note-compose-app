@@ -11,7 +11,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 
-//Compose doesnt support hint, so that why we need to create one manually
 @Composable
 fun TransparentHintTextField(
     text: String,
@@ -22,21 +21,25 @@ fun TransparentHintTextField(
     textStyle: TextStyle = TextStyle(),
     singleLine: Boolean = false,
     onFocusChanged: (FocusState) -> Unit
-){
-    
-    Box(modifier = modifier){
+) {
+    Box(modifier = modifier) {
         BasicTextField(
-            value = text ,
+            value = text,
             onValueChange = onValueChanged,
             singleLine = singleLine,
             textStyle = textStyle,
             modifier = Modifier
                 .fillMaxWidth()
-                .onFocusChanged { state -> onFocusChanged(state) }
+                .onFocusChanged { state ->
+                    onFocusChanged(state)
+                }
         )
-        if (isHintVisible){
-            Text(text = hint, style = textStyle, color = Color.DarkGray)
+        if(isHintVisible) {
+            Text(
+                text = hint,
+                style = textStyle,
+                color = Color.DarkGray
+            )
         }
     }
-
 }

@@ -2,22 +2,22 @@ package com.plcoding.noteappkmm.domain.time
 
 import kotlinx.datetime.*
 
-//Sharing both logic to Android and ios
 object DateTimeUtil {
-    fun now() : LocalDateTime {
-        return Clock.System.now().toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault())
+
+    fun now(): LocalDateTime {
+        return Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
     }
 
-    fun toEpochMillis(dateTime: LocalDateTime) : Long {
+    fun toEpochMillis(dateTime: LocalDateTime): Long {
         return dateTime.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
     }
 
-    fun formatNoteDate(dateTime: LocalDateTime) : String {
+    fun formatNoteDate(dateTime: LocalDateTime): String {
         val month = dateTime.month.name.lowercase().take(3).replaceFirstChar { it.uppercase() }
-        val day = if (dateTime.dayOfMonth < 10) "0${dateTime.dayOfMonth}" else dateTime.dayOfMonth
+        val day = if(dateTime.dayOfMonth < 10) "0${dateTime.dayOfMonth}" else dateTime.dayOfMonth
         val year = dateTime.year
-        val hour = if (dateTime.hour < 10) "0${dateTime.hour}" else dateTime.hour
-        val minute = if (dateTime.minute < 10) "0${dateTime.minute}" else dateTime.minute
+        val hour = if(dateTime.hour < 10) "0${dateTime.hour}" else dateTime.hour
+        val minute = if(dateTime.minute < 10) "0${dateTime.minute}" else dateTime.minute
 
         return buildString {
             append(month)
@@ -25,7 +25,7 @@ object DateTimeUtil {
             append(day)
             append(" ")
             append(year)
-            append(" ")
+            append(", ")
             append(hour)
             append(":")
             append(minute)

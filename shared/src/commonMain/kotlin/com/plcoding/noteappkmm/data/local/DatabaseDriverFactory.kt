@@ -1,4 +1,4 @@
-package com.plcoding.noteappkmm.domain.data.local
+package com.plcoding.noteappkmm.data.local
 
 import com.squareup.sqldelight.db.SqlDriver
 

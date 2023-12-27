@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.plcoding.noteappkmm.domain.note.Note
@@ -28,20 +27,18 @@ fun NoteItem(
     backgroundColor: Color,
     onNoteClick: () -> Unit,
     onDeleteClick: () -> Unit,
-    modifier: Modifier
-){
+    modifier: Modifier = Modifier
+) {
     val formattedDate = remember(note.created) {
         DateTimeUtil.formatNoteDate(note.created)
     }
-
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(5.dp))
             .background(backgroundColor)
-            .clickable { onNoteClick }
+            .clickable { onNoteClick() }
             .padding(16.dp)
     ) {
-
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
@@ -56,8 +53,8 @@ fun NoteItem(
                 imageVector = Icons.Default.Close,
                 contentDescription = "Delete note",
                 modifier = Modifier
-                    .clickable(MutableInteractionSource(), null){
-                        onDeleteClick
+                    .clickable(MutableInteractionSource(), null) {
+                        onDeleteClick()
                     }
             )
         }

@@ -1,9 +1,9 @@
 package com.plcoding.noteappkmm.android.di
 
 import android.app.Application
+import com.plcoding.noteappkmm.data.local.DatabaseDriverFactory
+import com.plcoding.noteappkmm.data.note.SqlDelightNoteDataSource
 import com.plcoding.noteappkmm.database.NoteDatabase
-import com.plcoding.noteappkmm.domain.data.local.DatabaseDriverFactory
-import com.plcoding.noteappkmm.domain.data.note.SqlDelightNoteDataSource
 import com.plcoding.noteappkmm.domain.note.NoteDataSource
 import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module

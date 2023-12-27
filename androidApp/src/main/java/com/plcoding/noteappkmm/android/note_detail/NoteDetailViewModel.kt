@@ -6,10 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.plcoding.noteappkmm.domain.note.Note
 import com.plcoding.noteappkmm.domain.note.NoteDataSource
 import com.plcoding.noteappkmm.domain.time.DateTimeUtil
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class NoteDetailViewModel @Inject constructor(
     private val noteDataSource: NoteDataSource,
     private val savedStateHandle: SavedStateHandle
@@ -19,15 +21,18 @@ class NoteDetailViewModel @Inject constructor(
     private val isNoteTitleFocused = savedStateHandle.getStateFlow("isNoteTitleFocused", false)
     private val noteContent = savedStateHandle.getStateFlow("noteContent", "")
     private val isNoteContentFocused = savedStateHandle.getStateFlow("isNoteContentFocused", false)
-    private val noteColor = savedStateHandle.getStateFlow("noteColor", Note.generateRandomColor())
+    private val noteColor = savedStateHandle.getStateFlow(
+        "noteColor",
+        Note.generateRandomColor()
+    )
 
     val state = combine(
         noteTitle,
-        isNoteContentFocused,
+        isNoteTitleFocused,
         noteContent,
         isNoteContentFocused,
         noteColor
-    ) {title, isTitleFocused, content, isContentFocused, color ->
+    ) { title, isTitleFocused, content, isContentFocused, color ->
         NoteDetailState(
             noteTitle = title,
             isNoteTitleHintVisible = title.isEmpty() && !isTitleFocused,
@@ -37,16 +42,16 @@ class NoteDetailViewModel @Inject constructor(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), NoteDetailState())
 
-    private val _hastNoteBeenSaved = MutableStateFlow(false)
-    val hasNoteBeenSaved = _hastNoteBeenSaved.asStateFlow()
+    private val _hasNoteBeenSaved = MutableStateFlow(false)
+    val hasNoteBeenSaved = _hasNoteBeenSaved.asStateFlow()
 
     private var existingNoteId: Long? = null
 
     init {
         savedStateHandle.get<Long>("noteId")?.let { existingNoteId ->
-            if (existingNoteId == -1L){
+            if(existingNoteId == -1L) {
                 return@let
-        }
+            }
             this.existingNoteId = existingNoteId
             viewModelScope.launch {
                 noteDataSource.getNoteById(existingNoteId)?.let { note ->
@@ -58,23 +63,23 @@ class NoteDetailViewModel @Inject constructor(
         }
     }
 
-    fun onNoteTitleChanged(text: String){
+    fun onNoteTitleChanged(text: String) {
         savedStateHandle["noteTitle"] = text
     }
 
-    fun onNoteContentChanged(text: String){
+    fun onNoteContentChanged(text: String) {
         savedStateHandle["noteContent"] = text
     }
 
-    fun onNoteTitleFocusChanged(isFocused: Boolean){
+    fun onNoteTitleFocusChanged(isFocused: Boolean) {
         savedStateHandle["isNoteTitleFocused"] = isFocused
     }
 
-    fun onNoteContentFocusChanged(isFocused: Boolean){
+    fun onNoteContentFocusChanged(isFocused: Boolean) {
         savedStateHandle["isNoteContentFocused"] = isFocused
     }
 
-    fun saveNote(){
+    fun saveNote() {
         viewModelScope.launch {
             noteDataSource.insertNote(
                 Note(
@@ -85,7 +90,7 @@ class NoteDetailViewModel @Inject constructor(
                     created = DateTimeUtil.now()
                 )
             )
-            _hastNoteBeenSaved.value = true
+            _hasNoteBeenSaved.value = true
         }
     }
 }
