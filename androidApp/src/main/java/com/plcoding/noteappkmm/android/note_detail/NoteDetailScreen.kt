@@ -64,7 +64,8 @@ fun NoteDetailScreen(
                     viewModel.onNoteTitleFocusChanged(it.isFocused)
                 },
                 singleLine = true,
-                textStyle = TextStyle(fontSize = 20.sp)
+                textStyle = TextStyle(fontSize = 24.sp),
+                modifier = Modifier.padding(0.dp, 20.dp, 0.dp, 20.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             TransparentHintTextField(
@@ -76,7 +77,7 @@ fun NoteDetailScreen(
                     viewModel.onNoteContentFocusChanged(it.isFocused)
                 },
                 singleLine = false,
-                textStyle = TextStyle(fontSize = 20.sp),
+                textStyle = TextStyle(fontSize = 18.sp),
                 modifier = Modifier.weight(1f)
             )
         }
