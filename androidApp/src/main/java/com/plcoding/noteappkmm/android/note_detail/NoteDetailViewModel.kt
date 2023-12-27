@@ -70,7 +70,7 @@ class NoteDetailViewModel @Inject constructor(
         savedStateHandle["isNoteTitleFocused"] = isFocused
     }
 
-    fun onNoteContentChanged(isFocused: Boolean){
+    fun onNoteContentFocusChanged(isFocused: Boolean){
         savedStateHandle["isNoteContentFocused"] = isFocused
     }
 
