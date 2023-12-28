@@ -25,4 +25,5 @@
    ### Images Mobile Project:
 
 <strong>Android Images</strong>
-![tela1](https://github.com/gugapadilha/note-compose-app/assets/79876042/ba611815-a876-46a3-8152-ddbb45ab7dcf)
+![image](https://github.com/gugapadilha/note-compose-app/assets/79876042/0c1ed70c-003e-4c16-9328-8ec89a24ecaa)
+
