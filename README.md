@@ -23,3 +23,6 @@
    + Jetpack Compose
   
    ### Images Mobile Project:
+
+<strong>Android Images</strong>
+![tela1](https://github.com/gugapadilha/note-compose-app/assets/79876042/ba611815-a876-46a3-8152-ddbb45ab7dcf)
