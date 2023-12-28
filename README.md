@@ -27,3 +27,5 @@
 <strong>Android Images</strong>
 ![image](https://github.com/gugapadilha/note-compose-app/assets/79876042/0c1ed70c-003e-4c16-9328-8ec89a24ecaa)
 
+<strong>iOS Images</strong>
+![image](https://github.com/gugapadilha/note-compose-app/assets/79876042/53887f2e-f900-4b50-80e0-825bef5e5655)
